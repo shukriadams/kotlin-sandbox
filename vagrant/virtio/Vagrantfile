@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+
+    config.vm.box = "generic/ubuntu2204"
+    config.vm.hostname = "kotlin"
+    config.vm.synced_folder "./../..", "/vagrant", 
+      type: "nfs",
+      nfs_version: ENV['NFS_VERSION'], # ! Note ! You need this env var on your system
+      nfs_udp: false
+
+    config.vm.provision :shell, path: "./../provision.sh"  
+    config.vm.provider :libvirt do |v|
+        v.default_prefix = "kotlin"
+    end
+end 
